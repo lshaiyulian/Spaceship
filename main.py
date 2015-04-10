@@ -2,6 +2,7 @@ __author__ = 'dielson'
 
 import pygame, sys
 from pygame.locals import *
+from spaceship import Spaceship
 
 pygame.init()
 
@@ -10,19 +11,14 @@ pygame.display.set_caption('Hello world!')
 
 BLACK = (0, 0, 0)
 
-#windowSurface.fill(WHITE)
-#pygame.display.update()
+spaceship = Spaceship(windowSurface)
 
-spaceship = pygame.image.load('spaceship.png')
-
-spaceship_x = 200
-spaceship_y = 320
 keyleft_pressed = False
 keyright_pressed = False
 
 while True:
     windowSurface.fill(BLACK)
-    windowSurface.blit(spaceship, (spaceship_x, spaceship_y))
+    spaceship.update_position()
     pygame.display.flip()
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -39,10 +35,12 @@ while True:
             elif event.key == K_RIGHT:
                 keyright_pressed = False
 
+    # Moves the spaceship
     if keyright_pressed:
-        if spaceship_x < 430:
-            spaceship_x = spaceship_x + 5
+        if spaceship.x_position < 430:
+            spaceship.go_right()
     elif keyleft_pressed:
-        if spaceship_x > 0:
-            spaceship_x = spaceship_x - 5
-    pygame.time.delay(10)
+        if spaceship.x_position > 0:
+            spaceship.go_left()
+
+    pygame.time.delay(15)
